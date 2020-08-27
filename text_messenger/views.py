@@ -55,7 +55,7 @@ def new_message(request):
                 author=(request.user if request.user.is_authenticated else None),
             )
 
-            # if image exists and form fields is valid => create new entry
+            # if images exist and form fields is valid => create new entry
             if message_image_form.files.get("images") and message_image_form.is_valid():
                 images = message_image_form.files.getlist("images")
                 for image in images:
@@ -70,6 +70,7 @@ def new_message(request):
         # 'message_form': MessageForm(initial={'author': request.user if request.user.is_authenticated else None}),
         "message_form": MessageForm(),
         "message_image_form": MessageImageForm(),
+        "title": "New message",
     }
 
     return render(request, "text_messenger/new_message.html", context=context)

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 
 
 class Message(models.Model):
+    """ Model for representing message object """
+
     content = models.TextField(max_length=250)
     date_published = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -13,6 +15,8 @@ class Message(models.Model):
 
 
 class MessageImage(models.Model):
+    """ Model for representing images of the message  """
+
     image = models.ImageField(upload_to="images")
     message = models.ForeignKey(Message, on_delete=models.CASCADE)
 
