@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% for message in messages %}
+        <div class="post">
+            <div class="content">
+                <div class="metadata">
+                    <p>
+                        {% if message.author == null %}
+                            <a class="name">Anonymous</a>
+                        {% else %}
+                            <a class="name" href="{% url 'user_messages' message.author_id%}">{{ message.author }}</a>
+                        {% endif %}
+                    </p>
+                    <p class="date">{{message.date_published|date:"F d, Y  h:i"}}</p>
+                </div>
+                <p>{{message.content}}</p>
+                {% if message.messageimage_set %}
+                    <div class="image_container">
+                        {% for image in message.messageimage_set.all %}
+                            <img src="{{image}}" alt="Message image." class="message_image">
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+     {% if is_paginated %}
+        <div class="pagination">
+
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="pagination_item" >First</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="pagination_item" >Previous</a>
+            {% endif %}
+
+            {% for page in page_obj.paginator.page_range %}
+                {% if page_obj.number == page%}
+                    <a href="#" class="pagination_item active" >{{page}}</a>
+                {% elif page > page_obj.number|add:-2 and page < page_obj.number|add:2 %}
+                    <a href="?page={{ page }}" class="pagination_item" >{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="pagination_item" >Next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="pagination_item" >Last</a>
+            {% endif %}
+
+
+        </div>
+    {% endif %}
+
+{% endblock %}

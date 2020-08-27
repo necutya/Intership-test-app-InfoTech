@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <form method="POST" action="" class="form">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Log in</legend>
+            {% include "text_messenger/form_snippet.html" %}
+            <div class="form_item">
+                <button type="submit" class="submit"> Sign in </button>
+            </div>
+        </fieldset>
+    </form>
+    <div class="hint">
+        <span>Don`t have an account?</span>
+        <a href="{% url 'register' %}"> Sign up </a>
+    </div>
+{% endblock content%}

@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <form method="POST" action="" class="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>New Message</legend>
+
+                {% if message_form.non_field_errors %}
+                    <div class="flash danger">
+                        {{ message_form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% if message_image_form.non_field_errors %}
+                    <div class="flash danger">
+                        {{ message_image_form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                {% for field in message_form %}
+                    <div class="form_item">
+                        {% if field.errors %}
+                            {% for error in field.errors %}
+                                <p class="bad_input_text">{{ error }}</p>
+                            {% endfor %}
+                            <div class="bad_input">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        {% elif not field.is_hidden %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+
+                {% for field in message_image_form %}
+                    <div class="form_item">
+                         {% if field.errors %}
+                            {% for error in field.errors %}
+                                <p class="bad_input_text">{{ error }}</p>
+                            {% endfor %}
+                            <div class="bad_input">
+                                {{ field.label_tag }}
+                                {{ field }}
+                            </div>
+                        {% elif not field.is_hidden %}
+                            {{ field.label_tag }}
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+            <div class="form_item">
+                <button type="submit" class="submit"> Send </button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
