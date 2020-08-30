@@ -19,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "z$=zeo)9qp=)9@gdta1epr27q4)1b!2o966%^!f$fmtf%q7qmy"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['139.162.209.186']
 
 # Application definition
 
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -73,13 +74,18 @@ WSGI_APPLICATION = "InternshipTestEx.wsgi.application"
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "test_app",
-        "USER": os.getenv("PSQL_USERNAME"),
-        "PASSWORD": os.getenv("PSQL_PASSWORD"),
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql_psycopg2",
+    #     "NAME": "test_app",
+    #     "USER": os.getenv("PSQL_USERNAME"),
+    #     "PASSWORD": os.getenv("PSQL_PASSWORD"),
+    #     "HOST": "127.0.0.1",
+    #     "PORT": "5432",
+    # }
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase', # This is where you put the name of the db file.
+                 # If one doesn't exist, it will be created at migration time.
     }
 }
 
@@ -126,3 +132,17 @@ MEDIA_URL = "/media/"
 # Login and logout redirects
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+
+# Set AWS settings
+AWS_ACCESS_KEY_ID = "AKIA2R2H7LM6WYQGBTMB"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "internship-infotech-project"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+AWS_S3_REGION_NAME = 'us-east-2' #change to your region
+AWS_S3_SIGNATURE_VERSION = 's3v4'
